@@ -22,19 +22,24 @@ class _FlipCardState extends State<FlipCard>
     // Initializing the animation controller
     _controller = AnimationController(
       // duration of card to flip
-      duration: const Duration(microseconds: 600),
+      duration: const Duration(seconds: 1),
       // synchronize the animation with flutter framework
       vsync: this,
     );
 
     // Initialize animation
-    _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
+    // _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
     // "begin: 0, end: 1" progress indicator for flip
     // 0 means card fully visible
     // 1 means represent the back card
 
     // second animation
-    
+    _animation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut
+      )
+    );
   }
 
   // function that responsible for handling flipping action
@@ -74,18 +79,25 @@ class _FlipCardState extends State<FlipCard>
             builder: (context, child) {
               return Transform(
                 // "Transform" allows to apply transformation to its child based on provided matrix
-                transform: Matrix4.rotationY(_animation.value * 3.14159),
+                transform: Matrix4.identity()
+                // 3D transformation, without this the transformation will look like 2D flat
+                ..setEntry(3, 2, 0.001)
+                // Rotates widget around Y-axis (horizontal flip) 0 - front view 3.14159 back view
+                ..rotateY(_animation.value * 3.14159),
                 // rotate child along with Y-axis
                 alignment: Alignment.center,
                 // card display based the animation value
                 child:
                     _animation.value < 0.5
                         ? _builFronCard()
-                        : Transform.scale(
-                          scaleX: -1,
-                          scaleY: 1,
-                          child: _buildBackCard(),
+                        : Transform(
+                          alignment: Alignment.center,
+                          transform: Matrix4.identity()..scale(-1.0, 1.0, 1.0),
+                          child: _buildBackCard(), 
                         ),
+                  // The flip animation goes from 0 to 1.
+                  // When value < 0.5, card in the first half → show the front card.
+                  // When value >= 0.5, card in the second half → show the back card.
                 
               );
             },
