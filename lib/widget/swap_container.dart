@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:card_game/state/animated_container_state.dart';
 import 'package:card_game/utils/animation_algo_list.dart';
+import 'package:card_game/widget/flippable_card.dart';
 import 'package:flutter/material.dart';
 
 class SwapContainer extends StatefulWidget {
@@ -24,18 +25,15 @@ class _SwapContainerState extends State<SwapContainer> {
 
     containers.addAll([
       AnimatedContainerState(
-        label: "A",
-        color: Colors.orange,
+        image: 'assets/images/jack_of_spade.png',
         positions: [containerA],
       ),
       AnimatedContainerState(
-        label: "B",
-        color: Colors.blue,
+        image: 'assets/images/queen_of_heart.png',
         positions: [containerB],
       ),
       AnimatedContainerState(
-        label: "C",
-        color: Colors.teal,
+        image: 'assets/images/king_of_spade.png',
         positions: [containerC],
       ),
     ]);
@@ -53,18 +51,15 @@ class _SwapContainerState extends State<SwapContainer> {
 
     setState(() {
       containers[0] = AnimatedContainerState(
-        label: "A",
-        color: Colors.orange,
+        image: 'assets/images/jack_of_spade.png',
         positions: algo.aPositions,
       );
       containers[1] = AnimatedContainerState(
-        label: "B",
-        color: Colors.blue,
+        image: 'assets/images/queen_of_heart.png',
         positions: algo.bPositions,
       );
       containers[2] = AnimatedContainerState(
-        label: "C",
-        color: Colors.teal,
+        image: 'assets/images/king_of_spade.png',
         positions: algo.cPositions,
       );
 
@@ -90,16 +85,16 @@ class _SwapContainerState extends State<SwapContainer> {
 
         // final position of container
         for (var c in containers) {
-          print("Container ${c.label} is at ${c.currentAlignment}");
+          print("Container ${c.image} is at ${c.currentAlignment}");
 
           // set new alignment
-          if (c.label == "A") {
-            containerA = c.currentAlignment;
-          } else if (c.label == "B") {
-            containerB = c.currentAlignment;
-          } else if (c.label == "C") {
-            containerC = c.currentAlignment;
-          }
+          // if (c.label == "A") {
+          //   containerA = c.currentAlignment;
+          // } else if (c.label == "B") {
+          //   containerB = c.currentAlignment;
+          // } else if (c.label == "C") {
+          //   containerC = c.currentAlignment;
+          // }
         }
       }
     });
@@ -126,10 +121,9 @@ class _SwapContainerState extends State<SwapContainer> {
               children:
                   containers
                       .map(
-                        (c) => AnimatedAlign(
-                          duration: const Duration(milliseconds: 500),
+                        (c) => FlippableCard(
+                          frontImage: c.image,
                           alignment: c.currentAlignment,
-                          child: _buildContainer(c.label, c.color),
                         ),
                       )
                       .toList(),
@@ -155,9 +149,15 @@ class _SwapContainerState extends State<SwapContainer> {
           borderRadius: BorderRadius.circular(12),
         ),
         alignment: Alignment.center,
-        child: Text(
-          text,
-          style: const TextStyle(color: Colors.white, fontSize: 20),
+        // child: Text(
+        //   text,
+        //   style: const TextStyle(color: Colors.white, fontSize: 20),
+        // ),
+        child: Image.asset(
+          'assets/images/back.png',
+          height: double.infinity,
+          width: double.infinity,
+          fit: BoxFit.fill,
         ),
       ),
     );

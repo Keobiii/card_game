@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 
 class AnimatedContainerState {
   // properties
-  final String label;
-  final Color color;
+  final String image;
   final List<Alignment> positions;
   int currentStep = 0;
 
   // constructor
   AnimatedContainerState({
-    required this.label,
-    required this.color,
+    required this.image,
     required this.positions,
   });
 
