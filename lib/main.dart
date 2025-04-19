@@ -1,4 +1,5 @@
 import 'package:card_game/widget/flip_card.dart';
+import 'package:card_game/widget/swap_container.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true
       ),
-      home: const FlipCard(),
+      home: const SwapContainer(),
     );
   }
 }
