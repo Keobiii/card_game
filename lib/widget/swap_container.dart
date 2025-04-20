@@ -182,6 +182,7 @@ class _SwapContainerState extends State<SwapContainer>
     return Scaffold(
       appBar: AppBar(title: const Text("Shuffle Containers")),
       body: Container(
+        height: double.infinity,
         color: Colors.red,
         child: Center(
           child: Column(
@@ -190,7 +191,7 @@ class _SwapContainerState extends State<SwapContainer>
               Text('CountDown: $timeLeft', style: TextStyle(fontSize: 25)),
               SizedBox(height: 50),
               Container(
-                height: 500,
+                height: 370,
                 width: double.infinity,
                 color: Colors.amberAccent,
                 child: Stack(
@@ -241,44 +242,47 @@ class _SwapContainerState extends State<SwapContainer>
   }
 
   Widget _FlippableCard(String image, Alignment alignment) {
-    return AnimatedAlign(
-      duration: const Duration(milliseconds: 400),
-      alignment: alignment,
-      child: AnimatedBuilder(
-        animation: _animation,
-        builder: (context, child) {
-          return Transform(
-            transform:
-                Matrix4.identity()
-                  ..setEntry(3, 2, 0.001)
-                  ..rotateY(_animation.value * 3.14159),
-            alignment: Alignment.center,
-            child:
-                _animation.value < 0.5
-                    ? _buildBackCard()
-                    : Transform(
-                      alignment: Alignment.center,
-                      transform: Matrix4.identity()..scale(-1.0, 1.0, 1.0),
-                      child: _buildFrontCard(image),
-                    ),
-          );
-        },
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: AnimatedAlign(
+        duration: const Duration(milliseconds: 400),
+        alignment: alignment,
+        child: AnimatedBuilder(
+          animation: _animation,
+          builder: (context, child) {
+            return Transform(
+              transform:
+                  Matrix4.identity()
+                    ..setEntry(3, 2, 0.001)
+                    ..rotateY(_animation.value * 3.14159),
+              alignment: Alignment.center,
+              child:
+                  _animation.value < 0.5
+                      ? _buildBackCard()
+                      : Transform(
+                        alignment: Alignment.center,
+                        transform: Matrix4.identity()..scale(-1.0, 1.0, 1.0),
+                        child: _buildFrontCard(image),
+                      ),
+            );
+          },
+        ),
       ),
     );
   }
 
   Widget _buildBackCard() {
     return Container(
-      width: 100,
-      height: 150,
+      width: 80,
+      height: 110,
       child: Image.asset('assets/images/back.png', fit: BoxFit.fill),
     );
   }
 
   Widget _buildFrontCard(String image) {
     return Container(
-      width: 100,
-      height: 150,
+      width: 80,
+      height: 110,
       child: Image.asset(image, fit: BoxFit.fill),
     );
   }
