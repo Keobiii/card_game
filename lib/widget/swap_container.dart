@@ -81,6 +81,11 @@ class _SwapContainerState extends State<SwapContainer>
     print("Clicked");
     if (_isAnimating) return; // Prevent double clicking
 
+    // if (_isFront) {
+    //   _controller.forward();
+    // }
+    timeLeft = 5; 
+
     final algo = algorithms[Random().nextInt(algorithms.length)];
 
     setState(() {
