@@ -32,9 +32,10 @@ class _FlippableCardState extends State<FlippableCard>
       _controller.forward();
     }
 
-    _animation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _animation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   void _toggleCard() {
@@ -48,6 +49,13 @@ class _FlippableCardState extends State<FlippableCard>
     });
   }
 
+  void flipToFront() {
+    if (!_isFront) {
+      _controller.reverse();
+      _isFront = true;
+    }
+  }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -59,23 +67,25 @@ class _FlippableCardState extends State<FlippableCard>
     return GestureDetector(
       onTap: _toggleCard,
       child: AnimatedAlign(
-        duration: const Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 400),
         alignment: widget.alignment,
         child: AnimatedBuilder(
           animation: _animation,
           builder: (context, child) {
             return Transform(
-              transform: Matrix4.identity()
-                ..setEntry(3, 2, 0.001)
-                ..rotateY(_animation.value * 3.14159),
+              transform:
+                  Matrix4.identity()
+                    ..setEntry(3, 2, 0.001)
+                    ..rotateY(_animation.value * 3.14159),
               alignment: Alignment.center,
-              child: _animation.value < 0.5
-                  ? _buildBackCard()
-                  : Transform(
-                      alignment: Alignment.center,
-                      transform: Matrix4.identity()..scale(-1.0, 1.0, 1.0),
-                      child: _buildFrontCard(widget.frontImage),
-                    ),
+              child:
+                  _animation.value < 0.5
+                      ? _buildBackCard()
+                      : Transform(
+                        alignment: Alignment.center,
+                        transform: Matrix4.identity()..scale(-1.0, 1.0, 1.0),
+                        child: _buildFrontCard(widget.frontImage),
+                      ),
             );
           },
         ),
@@ -87,10 +97,7 @@ class _FlippableCardState extends State<FlippableCard>
     return Container(
       width: 100,
       height: 150,
-      child: Image.asset(
-        'assets/images/back.png',
-        fit: BoxFit.fill,
-      ),
+      child: Image.asset('assets/images/back.png', fit: BoxFit.fill),
     );
   }
 
@@ -98,10 +105,7 @@ class _FlippableCardState extends State<FlippableCard>
     return Container(
       width: 100,
       height: 150,
-      child: Image.asset(
-        image,
-        fit: BoxFit.fill,
-      ),
+      child: Image.asset(image, fit: BoxFit.fill),
     );
   }
 }
