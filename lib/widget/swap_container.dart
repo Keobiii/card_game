@@ -22,9 +22,9 @@ class _SwapContainerState extends State<SwapContainer>
   // Cards
   final List<AnimatedContainerState> containers = [];
 
-  var containerA = Alignment.center;
+  var containerA = Alignment.centerLeft;
   var containerB = Alignment.center;
-  var containerC = Alignment.center;
+  var containerC = Alignment.centerRight;
 
   @override
   void initState() {
@@ -45,6 +45,7 @@ class _SwapContainerState extends State<SwapContainer>
       end: 1,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
+    // add item on the list
     containers.addAll([
       AnimatedContainerState(
         image: 'assets/images/jack_of_spade.png',
@@ -84,7 +85,8 @@ class _SwapContainerState extends State<SwapContainer>
     // if (_isFront) {
     //   _controller.forward();
     // }
-    timeLeft = 5; 
+    timeLeft = 5;
+    
 
     final algo = algorithms[Random().nextInt(algorithms.length)];
 
@@ -127,8 +129,11 @@ class _SwapContainerState extends State<SwapContainer>
 
         // final position of container
         for (var c in containers) {
-          print("Container ${c.image} is at ${c.currentAlignment}");
+          // print("Container ${c.image} is at ${c.currentAlignment}");
 
+          if (c.image == 'assets/images/queen_of_heart.png') {
+            print("Queen at ${c.currentAlignment}");
+          }
           // set new alignment
           // if (c.label == "A") {
           //   containerA = c.currentAlignment;
@@ -155,14 +160,13 @@ class _SwapContainerState extends State<SwapContainer>
     Timer.periodic(Duration(seconds: 1), (timer) {
       if (timeLeft > 0) {
         setState(() {
-        timeLeft--;
-      });
+          timeLeft--;
+        });
       } else {
         timer.cancel();
         print('Done');
         _toggleCard();
       }
-      
     });
   }
 
@@ -183,13 +187,8 @@ class _SwapContainerState extends State<SwapContainer>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'CountDown: $timeLeft',
-                style: TextStyle(
-                  fontSize: 25
-                ),
-              ),
-              SizedBox(height: 50,),
+              Text('CountDown: $timeLeft', style: TextStyle(fontSize: 25)),
+              SizedBox(height: 50),
               Container(
                 height: 500,
                 width: double.infinity,
@@ -202,6 +201,33 @@ class _SwapContainerState extends State<SwapContainer>
                           )
                           .toList(),
                 ),
+              ),
+              SizedBox(height: 50),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
+                    ),
+                    child: Text('Bet', style: TextStyle(color: Colors.black)),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.tealAccent,
+                    ),
+                    child: Text('Bet', style: TextStyle(color: Colors.black)),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.purpleAccent,
+                    ),
+                    child: Text('Bet', style: TextStyle(color: Colors.black)),
+                  ),
+                ],
               ),
             ],
           ),
