@@ -64,11 +64,17 @@ class _SwapContainerState extends State<SwapContainer>
 
   // Flip Card function
   void _toggleCard() {
-    if (_isFront) {
+    if (!_isFront) {
       _controller.forward();
-    } else {
-      _controller.reverse();
     }
+    // else {
+    //   _controller.reverse();
+    // }
+
+    // if (!_isFront) {
+    //   _controller.reverse();
+    // }
+
     setState(() {
       _isFront = !_isFront;
     });
@@ -82,11 +88,12 @@ class _SwapContainerState extends State<SwapContainer>
     print("Clicked");
     if (_isAnimating) return; // Prevent double clicking
 
-    // if (_isFront) {
-    //   _controller.forward();
-    // }
     timeLeft = 5;
-    
+
+    if (_isFront) {
+      _controller.reverse();
+      print('Card is at Back');
+    }
 
     final algo = algorithms[Random().nextInt(algorithms.length)];
 
@@ -105,6 +112,7 @@ class _SwapContainerState extends State<SwapContainer>
       );
 
       _isAnimating = true; // mark the animation is running
+      _isFront = !_isFront;
     });
 
     //  this starts the loops for every 1 seconds
