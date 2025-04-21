@@ -26,6 +26,9 @@ class _SwapContainerState extends State<SwapContainer>
   var containerB = Alignment.center;
   var containerC = Alignment.centerRight;
 
+  var userSelected = "";
+  var result = "";
+
   @override
   void initState() {
     super.initState();
@@ -89,6 +92,7 @@ class _SwapContainerState extends State<SwapContainer>
     if (_isAnimating) return; // Prevent double clicking
 
     timeLeft = 5;
+    userSelected = "";
 
     if (_isFront) {
       _controller.reverse();
@@ -141,6 +145,7 @@ class _SwapContainerState extends State<SwapContainer>
 
           if (c.image == 'assets/images/queen_of_heart.png') {
             print("Queen at ${c.currentAlignment}");
+            result = c.currentAlignment.toString();
           }
           // set new alignment
           // if (c.label == "A") {
@@ -174,6 +179,20 @@ class _SwapContainerState extends State<SwapContainer>
         timer.cancel();
         print('Done');
         _toggleCard();
+        if (userSelected != null || userSelected.isNotEmpty) {
+          print('User Selected: $userSelected');
+          print('Result: $result');
+        }
+
+        if (userSelected == '1' && result == 'Alignment.centerLeft') {
+          print('you choose 1 and You guess it correct!');
+        } else if (userSelected == '2' && result == 'Alignment.center') {
+          print('you choose 2 and You guess it correct! ');
+        } else if (userSelected == '3' && result == 'Alignment.centerRight') {
+          print('you choose 3 and You guess it correct!');
+        } else {
+          print('You guess it wrong');
+        }
       }
     });
   }
@@ -216,21 +235,27 @@ class _SwapContainerState extends State<SwapContainer>
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      userSelected = '1';
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
                     ),
                     child: Text('Bet', style: TextStyle(color: Colors.black)),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      userSelected = '2';
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.tealAccent,
                     ),
                     child: Text('Bet', style: TextStyle(color: Colors.black)),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      userSelected = '3';
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.purpleAccent,
                     ),
